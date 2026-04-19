@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flatbush Shipyards - CFP Case 3</title>
+<style>
+  :root {
+    --navy: #1B2A4A;
+    --navy-light: #004B87;
+    --orange: #D97706;
+    --red: #C00000;
+    --green: #548235;
+    --green-light: #E2EFDA;
+    --grey: #F5F5F0;
+    --yellow: #FFF2CC;
+    --text: #333333;
+    --footer: #999999;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: Calibri, "Helvetica Neue", Arial, sans-serif; color: var(--text); background: #999; }
+  body { display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
+  .slide {
+    width: 1280px; height: 720px;
+    background: white; padding: 48px 64px;
+    margin: 16px 0; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    position: relative;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .title { font-size: 32px; font-weight: bold; color: var(--navy); margin-bottom: 8px; line-height: 1.15; }
+  .subtitle { font-size: 16px; color: #555; margin-bottom: 16px; }
+  .big-number { font-size: 64px; font-weight: bold; line-height: 1; margin: 12px 0; }
+  .footnote { font-size: 11px; font-style: italic; color: #666; margin: 8px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th { background: var(--navy); color: white; padding: 10px 12px; text-align: left; font-weight: bold; }
+  td { padding: 8px 12px; border: none; }
+  tbody tr:nth-child(odd) { background: white; }
+  tbody tr:nth-child(even) { background: var(--grey); }
+  .num td { text-align: right; }
+  .num td:first-child { text-align: left; }
+  .callout {
+    border-radius: 8px; padding: 12px 16px; font-size: 13px; font-style: italic;
+    border: 2px solid; line-height: 1.35;
+    margin-top: auto;
+  }
+  .callout.red { border-color: var(--red); background: #FFF5F5; }
+  .callout.green { border-color: var(--green); background: #F0F7EB; }
+  .callout.navy { border-color: var(--navy); background: #F0F3FA; }
+  .callout.orange { border-color: var(--orange); background: #FFF7ED; }
+  .footer {
+    position: absolute; bottom: 18px; left: 64px; right: 64px;
+    font-size: 10px; color: var(--footer);
+    display: flex; justify-content: space-between;
+  }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; flex: 1; align-items: start; }
+  .split.two-to-one { grid-template-columns: 2fr 1fr; }
+  .split.one-to-two { grid-template-columns: 1fr 2fr; }
+  .panel h3 { font-size: 16px; color: var(--navy); font-weight: bold; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+  .panel.orange h3 { color: var(--orange); }
+  .panel.red h3 { color: var(--red); }
+  .panel.green h3 { color: var(--green); }
+  .panel ul { padding-left: 18px; font-size: 14px; line-height: 1.5; }
+  .panel ul li { margin-bottom: 4px; }
+  .red-text { color: var(--red); font-weight: bold; }
+  .green-text { color: var(--green); font-weight: bold; }
+  .orange-text { color: var(--orange); font-weight: bold; }
+  .navy-text { color: var(--navy); font-weight: bold; }
+  .green-fill { background: var(--green) !important; color: white; }
+  .navy-fill { background: var(--navy) !important; color: white; }
+  .yellow-fill { background: var(--yellow) !important; }
+  .quote-box {
+    background: var(--grey); border-left: 4px solid var(--navy);
+    padding: 14px 18px; font-style: italic; font-size: 18px;
+    color: var(--navy); margin: 12px 0;
+  }
+  .quote-box .attrib { display: block; font-size: 13px; font-weight: normal; color: #666; margin-top: 6px; font-style: normal; }
+  .centre-quote {
+    text-align: center; font-size: 28px; font-style: italic;
+    color: var(--navy); line-height: 1.35; padding: 40px 40px;
+  }
+  .centre-quote-small { text-align: center; font-size: 18px; font-style: italic; color: #666; margin-top: 20px; }
+  .stack-row {
+    padding: 12px 16px; margin: 6px 0; color: white; font-size: 15px;
+    display: grid; grid-template-columns: 160px 1fr 1fr; gap: 16px; align-items: center;
+  }
+  .stack-row strong { font-weight: bold; }
+  .formula-box {
+    background: var(--grey); padding: 14px 18px; font-size: 14px;
+    line-height: 1.5; margin: 10px 0; border-radius: 4px;
+  }
+  .formula-box code { font-family: "Courier New", monospace; font-weight: bold; color: var(--navy); font-size: 15px; }
+  .cover {
+    background: var(--navy); color: white;
+    justify-content: center; align-items: center; text-align: center;
+  }
+  .cover h1 { font-size: 56px; font-weight: bold; margin-bottom: 20px; line-height: 1.1; }
+  .cover .case-tag { font-size: 22px; color: #B8C6E0; letter-spacing: 2px; margin-bottom: 60px; text-transform: uppercase; }
+  .cover .team { font-size: 22px; line-height: 1.6; }
+  .cover .group-no { font-size: 18px; color: #B8C6E0; margin-top: 30px; letter-spacing: 1px; }
+  .slide-num { position: absolute; bottom: 18px; right: 64px; font-size: 10px; color: var(--footer); }
+  .anchor-highlight { background: var(--yellow); font-weight: bold; }
+
+  /* Question banner - top-right corner */
+  .q-banner {
+    position: absolute; top: 0; right: 0;
+    background: var(--navy); color: white;
+    padding: 14px 24px 14px 28px;
+    border-bottom-left-radius: 12px;
+    display: flex; align-items: center; gap: 14px;
+    z-index: 10;
+  }
+  .q-banner .q-num {
+    font-size: 22px; font-weight: bold; letter-spacing: 1px;
+    border-right: 2px solid rgba(255,255,255,0.3);
+    padding-right: 14px; line-height: 1;
+  }
+  .q-banner .q-text {
+    font-size: 12px; line-height: 1.3; max-width: 340px;
+    color: #D0D8E8;
+  }
+  .slide.has-banner .title { padding-right: 420px; }
+
+  @media print {
+    body { background: white; padding: 0; margin: 0; }
+    .slide { margin: 0; box-shadow: none; page-break-after: always; }
+  }
+  @page { size: 1280px 720px; margin: 0; }
+</style>
+</head>
+<body>
+
+<!-- ========== COVER ========== -->
+<div class="slide cover">
+  <div class="case-tag">CFP Case 3 · INSEAD MBA 26D</div>
+  <h1>Flatbush Shipyards, Inc.</h1>
+  <div style="font-size:28px; font-weight:300; color:#B8C6E0; margin-top:12px;">Dividend Policy, Capital Structure &amp; Payout Mechanics</div>
+  <div class="team" style="margin-top:80px;">
+    <strong>Team Flank · Group E6-G14</strong><br>
+    <span style="font-size:18px; color:#B8C6E0;">Freddie Chambers · Andrew Bauer · Navya Pathak · Karim Hafez</span>
+  </div>
+  <div class="group-no">19 April 2026</div>
+</div>
+
+<!-- ========== SLIDE 1 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q1</div><div class="q-text">Evaluate Mr Davis's proposal</div></div>
+  <div class="title">Davis wants to freeze the dividend and build a reserve</div>
+  <div class="footnote">Davis: NY investment banker, newly-elected outside director. Conceded he could cite no precedent for a cyclical firm adopting this policy.</div>
+
+  <div class="split" style="margin-top: 12px;">
+    <div class="panel">
+      <h3>The problem Davis sees</h3>
+      <ul>
+        <li>Dividend volatility drives stock-price volatility</li>
+        <li>Monthly turnover <strong>~20%</strong> of shares outstanding</li>
+        <li>Speculators dominating; institutions absent (<strong>2%</strong> of shares, Exhibit 5)</li>
+        <li>Stock trades at <strong>7x earnings</strong> vs "growth stock" peers at <strong>25x</strong></li>
+      </ul>
+    </div>
+    <div class="panel orange">
+      <h3>His fix</h3>
+      <div class="big-number orange-text">$4.80</div>
+      <div class="subtitle">Frozen regular dividend per year</div>
+      <ol style="padding-left:20px; font-size:14px; line-height:1.55;">
+        <li><strong>Freeze</strong> cash dividend at $1.20/qtr</li>
+        <li><strong>Fund a reserve</strong>: $2m now + $0.5m/yr → $3.5m by 1961</li>
+        <li><strong>Stock dividend</strong> of 3-5% in good years</li>
+      </ol>
+    </div>
+  </div>
+
+  <div style="background: var(--grey); padding: 10px 16px; border-radius: 4px; margin-top: 16px;">
+    <table>
+      <thead><tr><th>Stability yield</th><th>Implied price</th><th>Growth yield</th><th>Implied price</th><th>Current price</th></tr></thead>
+      <tbody><tr><td>5%</td><td><strong>$96</strong></td><td>4%</td><td><strong>$120</strong></td><td><strong>$78</strong> (pre-$1.20 announcement)</td></tr></tbody>
+    </table>
+  </div>
+
+  <div class="callout orange">Davis is explicitly targeting a re-rating from <strong>$78 to $96-120</strong> by changing the <em>image</em> of the stock. Stability + growth narrative.</div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q1a</span></div>
+  <div class="slide-num">1</div>
+</div>
+
+<!-- ========== SLIDE 2 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q1</div><div class="q-text">Evaluate Mr Davis's proposal</div></div>
+  <div class="title">The diagnosis is partly right. The cure doesn't work.</div>
+  <div class="big-number red-text">$0 value created</div>
+  <div class="subtitle">MM (1961): changing the form of payout doesn't change firm value - any gain must come from taxes, signalling, or agency costs, none of which Davis's plan delivers</div>
+
+  <table style="margin-top:16px;">
+    <thead><tr><th>Flaw</th><th>Why it fails</th><th>Session</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Reserve is accounting theatre</strong></td><td>MM irrelevance - cash in a segregated account ≠ value. Shareholders already complained about idle cash</td><td>S12</td></tr>
+      <tr><td><strong>T-bonds = negative NPV</strong></td><td>4% T-bonds vs equity hurdle rate far above 4% (see Q2)</td><td>S08-09</td></tr>
+      <tr><td><strong>Stock dividends are cosmetic</strong></td><td>3% stock dividend on 245,000 shares creates 7,350 new shares. Total earnings unchanged; per-share values fall proportionally. No wealth created</td><td>S12</td></tr>
+      <tr><td>Target price is wishful</td><td>5% yield assumes 50%+ market mispricing. Davis cites no precedent</td><td>-</td></tr>
+      <tr><td>Reserve too small for real cycle</td><td>$3.5m covers ~3 years of $4.80/share. 1947 alone: EPS ($6.68)</td><td>-</td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout red">Davis's diagnosis is right - payout volatility amplifies cyclical perception. But his treatment substitutes labels for substance.</div>
+
+  <div class="footnote" style="margin-top:8px;">Fischer Black (1976) "The Dividend Puzzle" - exactly the accounting-vs-economics confusion the payout literature has been fighting for decades.</div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q1b</span></div>
+  <div class="slide-num">2</div>
+</div>
+
+<!-- ========== SLIDE 3 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q2</div><div class="q-text">Is the board critique that investing in government bonds is a negative-NPV project justified?</div></div>
+  <div class="title">T-bonds yield 4% against an equity hurdle far above it</div>
+  <div class="big-number red-text">Negative-value use</div>
+  <div class="subtitle">of equity capital, relative to shareholder alternatives</div>
+
+  <table style="margin-top:12px;">
+    <thead><tr><th></th><th>What shareholders need</th><th>What T-bonds deliver</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Required return</strong></td><td>Trailing E/P ≈ $14 / $78 ≈ 18% (crude, ignores growth); CAPM-style estimate materially above 4% for a cyclical shipbuilder</td><td><strong>4%</strong> at best</td></tr>
+      <tr><td><strong>Directional point</strong></td><td>Every plausible cost-of-equity estimate is a multiple of 4%</td><td>Bonds fluctuated too (board member's point)</td></tr>
+    </tbody>
+  </table>
+
+  <table style="margin-top:14px;">
+    <thead><tr><th>Deployed capital</th><th>Economic consequence</th></tr></thead>
+    <tbody>
+      <tr style="background:#FFEBEB;"><td>$1m retained → T-bonds @ 4%</td><td class="red-text">PV destroyed: spread × retention period, at shareholder hurdle rate</td></tr>
+      <tr><td>$1m distributed → shareholder reinvests</td><td>$0 destruction (shareholder's choice)</td></tr>
+    </tbody>
+  </table>
+
+  <div class="split" style="margin-top:16px;">
+    <div class="quote-box" style="border-left-color: var(--navy);">
+      "A closed investment trust specialising in government securities."
+      <span class="attrib">— Flatbush board director, Feb 1959</span>
+    </div>
+    <div class="callout red" style="margin-top:0;">
+      <strong>Jensen (1986) free cash flow:</strong> if a firm has no positive-NPV projects at its required return, it should distribute the cash, not hoard it.
+    </div>
+  </div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q2a</span></div>
+  <div class="slide-num">3</div>
+</div>
+
+<!-- ========== SLIDE 4 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q2</div><div class="q-text">Is the board critique that investing in government bonds is a negative-NPV project justified?</div></div>
+  <div class="title">Some cash is insurance. $7.28m with zero debt is not.</div>
+  <div class="big-number navy-text">$7.28m</div>
+  <div class="subtitle">Cash ($4.30m) + marketable securities ($2.98m), vs zero long-term debt (Exhibit 2, Dec 31 1958)</div>
+
+  <div style="background: var(--grey); padding: 14px 18px; border-left: 4px solid var(--navy); margin: 12px 0; font-size: 18px; color: var(--navy); font-style: italic;">
+    The question isn't <em>whether</em> Flatbush should hold cash. It's whether it should hold <em>this much</em> with <em>zero</em> debt.
+  </div>
+
+  <table style="margin-top:14px;">
+    <thead><tr><th>Illustrative precautionary need</th><th>Order of magnitude</th><th>Flatbush has</th></tr></thead>
+    <tbody>
+      <tr><td>1-year working-capital swing</td><td>~$2m</td><td rowspan="3" style="vertical-align:middle; text-align:center;"><strong>$7.28m</strong></td></tr>
+      <tr><td>Contract bid bond / mobilisation</td><td>~$1m</td></tr>
+      <tr><td>Downturn liquidity buffer</td><td>~$1.5m</td></tr>
+      <tr class="yellow-fill"><td><strong>Precautionary total (illustrative)</strong></td><td><strong>~$4.5m</strong></td><td><strong>$7.28m</strong></td></tr>
+      <tr class="yellow-fill"><td><strong>Surplus to return</strong></td><td></td><td class="green-text"><strong>~$2.8m+</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout red">The precautionary estimate is directional, not case-derived. Even at double our buffer ($9m), there is no defensible reason to hold $7.28m of cash alongside zero debt. Buffer is the point; excess above buffer is the problem.</div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q2b</span></div>
+  <div class="slide-num">4</div>
+</div>
+
+<!-- ========== SLIDE 5 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q3</div><div class="q-text">Are the shareholder complaints about the change in dividend policy justified?</div></div>
+  <div class="title">Complaints are partly justified on fall-58 and clearly justified on Feb-59</div>
+  <div class="big-number red-text">Understandable → Justified</div>
+
+  <table style="margin-top:16px;">
+    <thead><tr><th></th><th>Fall 1958 cut</th><th>Feb 1959 hold</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Action</strong></td><td>$1.30 → $1.20/qtr</td><td>Held at $1.20</td></tr>
+      <tr><td><strong>Context</strong></td><td>Cash balances "sizeable"</td><td>$14-15 EPS guidance; $190m backlog</td></tr>
+      <tr><td><strong>Market event</strong></td><td>$162m orders arrived "shortly after"</td><td>Stock fell <strong>$78 → $69</strong> in a week</td></tr>
+      <tr><td><strong>Payout ratio</strong></td><td>55% on 1958 EPS $9.10 (already falling)</td><td><strong>~34%</strong> (below 50% target on $14 guidance)</td></tr>
+      <tr><td><strong>Verdict</strong></td><td class="red-text"><strong>Understandable, ill-timed ex post</strong></td><td class="red-text"><strong>Clearly inconsistent with guidance</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="footnote" style="margin-top:10px;">Padgett "reached the conclusion it would be most desirable to increase the dividend again as soon as possible" once the $162m inflow arrived. Complaints reveal heterogeneous clienteles (Exhibit 5: 45% women / 22% men by count) with different tax and income needs - understandable unfairness, but not proof of a value mistake on fall-58.</div>
+
+  <div class="callout red">Same underlying fault both times - management cutting into an upswing while hoarding cash. Actions don't match the cash-rich, backlog-strong narrative.</div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q3</span></div>
+  <div class="slide-num">5</div>
+</div>
+
+<!-- ========== SLIDE 6 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q4</div><div class="q-text">Why did the stock price fall when the company announced its dividend policy?</div></div>
+  <div class="title">$69 sits closer to the Davis anchor than to the Padgett anchor</div>
+  <div class="big-number red-text">$78 → $69</div>
+  <div class="subtitle">-11.5% in one week, on a dividend that met no expectation</div>
+
+  <!-- Signalling anchor visual -->
+  <div style="margin-top: 8px; padding: 14px 30px 4px 30px; background: white;">
+    <svg viewBox="0 0 1160 150" style="width: 100%; height: 150px;">
+      <line x1="60" y1="90" x2="1100" y2="90" stroke="#1B2A4A" stroke-width="2"/>
+
+      <circle cx="60" cy="90" r="9" fill="#C00000"/>
+      <line x1="60" y1="90" x2="60" y2="60" stroke="#C00000" stroke-width="1.5"/>
+      <text x="60" y="50" text-anchor="middle" font-family="Calibri, sans-serif" font-size="16" font-weight="bold" fill="#C00000">$59</text>
+      <text x="60" y="32" text-anchor="middle" font-family="Calibri, sans-serif" font-size="11" fill="#555">Davis path</text>
+      <text x="60" y="18" text-anchor="middle" font-family="Calibri, sans-serif" font-size="10" fill="#888">(flat $4.80 forever)</text>
+      <text x="60" y="115" text-anchor="middle" font-family="Calibri, sans-serif" font-size="10" fill="#666">illustrative</text>
+
+      <rect x="385" y="55" width="22" height="70" fill="#FFF2CC" stroke="#D97706" stroke-width="2"/>
+      <circle cx="396" cy="90" r="11" fill="#D97706"/>
+      <line x1="396" y1="90" x2="396" y2="55" stroke="#D97706" stroke-width="2"/>
+      <text x="396" y="46" text-anchor="middle" font-family="Calibri, sans-serif" font-size="20" font-weight="bold" fill="#D97706">$69</text>
+      <text x="396" y="28" text-anchor="middle" font-family="Calibri, sans-serif" font-size="12" font-weight="bold" fill="#1B2A4A">OBSERVED</text>
+      <text x="396" y="14" text-anchor="middle" font-family="Calibri, sans-serif" font-size="10" fill="#888">after $1.20 announcement</text>
+      <text x="396" y="145" text-anchor="middle" font-family="Calibri, sans-serif" font-size="10" fill="#666">closer to Davis than to Padgett</text>
+
+      <circle cx="1100" cy="90" r="9" fill="#548235"/>
+      <line x1="1100" y1="90" x2="1100" y2="60" stroke="#548235" stroke-width="1.5"/>
+      <text x="1100" y="50" text-anchor="middle" font-family="Calibri, sans-serif" font-size="16" font-weight="bold" fill="#548235">~$90</text>
+      <text x="1100" y="32" text-anchor="middle" font-family="Calibri, sans-serif" font-size="11" fill="#555">Padgett path</text>
+      <text x="1100" y="18" text-anchor="middle" font-family="Calibri, sans-serif" font-size="10" fill="#888">(50% of $14.50 EPS)</text>
+      <text x="1100" y="115" text-anchor="middle" font-family="Calibri, sans-serif" font-size="10" fill="#666">illustrative</text>
+
+      <line x1="60" y1="132" x2="396" y2="132" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="228" y="146" text-anchor="middle" font-family="Calibri, sans-serif" font-size="11" font-style="italic" fill="#666">$69 is ~32% of the way from Davis to Padgett</text>
+    </svg>
+  </div>
+  <div class="footnote" style="margin-top:0;">*Illustrative signalling anchors, not mechanical intrinsic values. Actual 1958 average yield was 6.2% (Exhibit 3); range reflects the forward-expectations gap between Davis's flat-dividend path and Padgett's 50%-of-EPS path.</div>
+
+  <div class="split" style="margin-top:14px;">
+    <div class="panel">
+      <h3>Mechanism</h3>
+      <ol style="padding-left:20px; font-size:13px; line-height:1.5;">
+        <li><strong>Lintner violation</strong> - no raise despite sustainable new earnings = management doesn't believe guidance</li>
+        <li><strong>Miller-Rock signalling</strong> - lower-than-expected dividend = worse-than-expected information</li>
+        <li><strong>Jensen FCF</strong> - retention into cash = agency-cost concern</li>
+      </ol>
+    </div>
+    <div class="panel" style="background: var(--grey); padding: 10px 14px; border-radius: 4px;">
+      <h3>Empirical anchor</h3>
+      <table style="font-size:12px;">
+        <thead><tr><th style="padding:6px 8px; font-size:11px;">Study</th><th style="padding:6px 8px; font-size:11px;">Event</th><th style="padding:6px 8px; font-size:11px;">Abnormal return</th></tr></thead>
+        <tbody>
+          <tr><td>Asquith-Mullins (1983)</td><td>Initial dividend</td><td class="green-text">+5%, slope 1.48 on yield</td></tr>
+          <tr><td>Asquith-Mullins (1983)</td><td>Dividend increase</td><td class="green-text">+1-3%</td></tr>
+          <tr><td>Vermaelen (1981)</td><td>Tender offer</td><td class="green-text">+13% permanent</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout navy">$69 sits materially closer to the Davis anchor than the Padgett anchor - the market partially prices the flat-dividend path. Signalling works both ways: the same mechanism used positively via a tender offer (Slide 12) would restore most of the ~10% market cap lost here.</div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q4</span></div>
+  <div class="slide-num">6</div>
+</div>
+
+<!-- ========== SLIDE 7 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q5</div><div class="q-text">What should the optimal dividend policy of Flatbush be?</div></div>
+  <div class="title">Our recommendation: three layers, not one mechanism</div>
+  <div class="big-number green-text">3 layers</div>
+
+  <div class="stack-row" style="background: #7AB352;">
+    <strong>1. Regular</strong><span>$1.20/qtr = $4.80/year, stable</span><span>Floor commitment - Lintner stability</span>
+  </div>
+  <div class="stack-row" style="background: #68A13F;">
+    <strong>2. Special extras</strong><span>Declared at year-end when genuine surplus</span><span>Captures good years without commitment</span>
+  </div>
+  <div class="stack-row" style="background: var(--green);">
+    <strong>3. Share repurchases</strong><span>Primary mechanism for returning surplus cash</span><span>Flexibility + tax + signalling (see Q7)</span>
+  </div>
+
+  <table style="margin-top:12px;">
+    <thead><tr><th>Layer addresses</th><th>Problem solved</th></tr></thead>
+    <tbody>
+      <tr><td>Stability</td><td>Davis's diagnosis - speculator turnover, no institutions</td></tr>
+      <tr><td>Special extras</td><td>Padgett's instinct - reward shareholders in good years</td></tr>
+      <tr><td>Buybacks</td><td>The $7.28m idle cash + 1959 tax advantage</td></tr>
+    </tbody>
+  </table>
+
+  <div class="formula-box" style="margin-top:12px;">
+    <strong>Lintner (1956) partial adjustment:</strong> <code>Divₜ = Divₜ₋₁ + α(Target × EPSₜ − Divₜ₋₁)</code><br>
+    Lintner's empirical finding: <strong>α ≈ 0.3-0.5</strong> (firms smooth slowly). Flatbush's 50%-of-EPS rule implies α ≈ 1 - full, immediate adjustment every year. That is what <em>created</em> the pro-cyclical volatility. Our target is anchored to <strong>trough</strong> EPS, not current.
+  </div>
+
+  <div class="callout green">The Lintner policy, honestly applied - with buybacks as the main capital-return mechanism. Brav-Graham-Harvey-Michaely (2005): CFOs treat regular dividends as near-unbreakable commitments; buybacks are how modern firms avoid Lintner traps in cyclical businesses.</div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q5a</span></div>
+  <div class="slide-num">7</div>
+</div>
+
+<!-- ========== SLIDE 8 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q5</div><div class="q-text">What should the optimal dividend policy of Flatbush be?</div></div>
+  <div class="title">Head-to-head: our policy wins the trade-offs that matter</div>
+  <div class="big-number green-text">Best fit</div>
+
+  <table style="margin-top:14px;">
+    <thead>
+      <tr><th>Dimension</th><th>Padgett (50% rule)</th><th>Davis (freeze + reserve)</th><th class="green-fill">Our recommendation</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Stability signal</td><td>Weak (tracks EPS)</td><td>Strong but fake (reserve is theatre)</td><td class="green-fill"><strong>Strong and honest</strong></td></tr>
+      <tr><td>Tax efficiency</td><td>Poor (all div = ordinary income)</td><td>Poor (same)</td><td class="green-fill"><strong>Strong (buyback capture)</strong></td></tr>
+      <tr><td>Cash discipline</td><td>Weak (accumulates)</td><td>Weak (accumulates in reserve)</td><td class="green-fill"><strong>Strong (forced distribution)</strong></td></tr>
+      <tr><td>Agency cost</td><td>High</td><td>High</td><td class="green-fill"><strong>Low</strong></td></tr>
+      <tr><td>Cyclical honesty</td><td>No (cuts in bad years)</td><td>Yes but brittle</td><td class="green-fill"><strong>Yes and robust</strong></td></tr>
+      <tr><td>Clientele fit (S12)</td><td>Half the shareholders</td><td>Half the shareholders</td><td class="green-fill"><strong>All - clientele self-selection</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="callout green">Clientele theory (S12): buybacks let every shareholder self-select - income-seekers tender for cash at capital-gains rates; long-horizon holders hold and capture EPS accretion. Padgett and Davis each force one clientele's preference on all holders. Trade-off: gives up simplicity and pure income-clientele ritual for flexibility and tax efficiency.</div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q5b</span></div>
+  <div class="slide-num">8</div>
+</div>
+
+<!-- ========== SLIDE 9 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q6</div><div class="q-text">Evaluate the capital structure policy of Flatbush</div></div>
+  <div class="title">Zero debt, $7.28m idle cash - a corner solution, not a trade-off</div>
+  <div class="big-number navy-text">0% debt</div>
+  <div class="subtitle">Not since World War II - on $29.70m of assets (Exhibit 2, 1958)</div>
+
+  <div class="split" style="margin-top:12px;">
+    <div class="panel">
+      <h3>Balance sheet (Dec 31, 1958)</h3>
+      <table class="num" style="font-size:13px;">
+        <thead><tr><th>Line</th><th>$m</th><th>% assets</th></tr></thead>
+        <tbody>
+          <tr><td>Cash + marketable securities</td><td>7.28</td><td>25%</td></tr>
+          <tr><td>Equity (245,000 shares × $10 par + surplus)</td><td>24.96</td><td>84%</td></tr>
+          <tr><td class="red-text"><strong>Long-term debt</strong></td><td class="red-text"><strong>0</strong></td><td class="red-text"><strong>0%</strong></td></tr>
+          <tr><td>Total assets</td><td>29.70</td><td>100%</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="panel">
+      <h3>Trade-off indicators</h3>
+      <table style="font-size:13px;">
+        <tbody>
+          <tr><td>52% tax rate → tax shields</td><td class="green-text">↑ debt</td></tr>
+          <tr><td>$190m backlog (2.5yr visibility)</td><td class="green-text">↑ debt</td></tr>
+          <tr><td>Agency cost of FCF (Jensen)</td><td class="green-text">↑ debt</td></tr>
+          <tr><td>Cyclical operating risk</td><td class="red-text">↓ debt</td></tr>
+          <tr><td>Working-capital volatility</td><td class="red-text">↓ debt</td></tr>
+          <tr><td>Repeat-bid Navy relationship</td><td class="red-text">↓ debt</td></tr>
+        </tbody>
+      </table>
+      <div style="font-size:12px; margin-top:6px; color:#555;"><strong>Tally: 3 up, 3 down</strong> → moderate, not zero</div>
+    </div>
+  </div>
+
+  <div style="background: var(--navy); color: white; padding: 12px 16px 6px 16px; border-radius: 4px; margin-top: 14px;">
+    <strong style="font-size:13px; letter-spacing:0.5px;">TYPICAL LEVERAGE BY INDUSTRY RISK — D/(D+E), illustrative from S08</strong>
+    <svg viewBox="0 0 1160 130" style="width: 100%; height: 130px; margin-top: 4px;">
+      <!-- Gridlines -->
+      <line x1="200" y1="115" x2="1120" y2="115" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+      <!-- x-axis ticks: 0%, 25%, 50%, 75%, 100% - mapping x=200 (0%) to x=1120 (100%), so 1% = 9.2 units -->
+      <text x="200" y="128" text-anchor="middle" font-family="Calibri" font-size="10" fill="rgba(255,255,255,0.6)">0%</text>
+      <text x="430" y="128" text-anchor="middle" font-family="Calibri" font-size="10" fill="rgba(255,255,255,0.6)">25%</text>
+      <text x="660" y="128" text-anchor="middle" font-family="Calibri" font-size="10" fill="rgba(255,255,255,0.6)">50%</text>
+      <text x="890" y="128" text-anchor="middle" font-family="Calibri" font-size="10" fill="rgba(255,255,255,0.6)">75%</text>
+      <text x="1120" y="128" text-anchor="middle" font-family="Calibri" font-size="10" fill="rgba(255,255,255,0.6)">100%</text>
+
+      <!-- Flatbush today: 0% -->
+      <text x="190" y="25" text-anchor="end" font-family="Calibri" font-size="12" font-weight="bold" fill="white">Flatbush today</text>
+      <rect x="200" y="13" width="4" height="18" fill="#C00000"/>
+      <text x="215" y="26" font-family="Calibri" font-size="12" font-weight="bold" fill="#C00000">0%</text>
+
+      <!-- Cyclical industrials: 20-35% -->
+      <text x="190" y="55" text-anchor="end" font-family="Calibri" font-size="12" fill="white">Cyclical industrials</text>
+      <rect x="384" y="43" width="138" height="18" fill="#D97706" opacity="0.85"/>
+      <text x="530" y="56" font-family="Calibri" font-size="12" fill="white">20-35%</text>
+
+      <!-- Our recap target: 29% -->
+      <text x="190" y="85" text-anchor="end" font-family="Calibri" font-size="12" font-weight="bold" fill="#90D25A">Our recap target</text>
+      <rect x="200" y="73" width="267" height="18" fill="#548235"/>
+      <circle cx="467" cy="82" r="5" fill="#90D25A" stroke="white" stroke-width="1.5"/>
+      <text x="480" y="86" font-family="Calibri" font-size="12" font-weight="bold" fill="#90D25A">29%</text>
+
+      <!-- Utilities/airlines: 55-68% -->
+      <text x="190" y="115" text-anchor="end" font-family="Calibri" font-size="12" fill="white">Utilities / airlines</text>
+      <rect x="706" y="103" width="121" height="18" fill="#1B3A6B" stroke="white" stroke-width="1" opacity="0.6"/>
+      <text x="835" y="116" font-family="Calibri" font-size="12" fill="white">55-68%</text>
+    </svg>
+  </div>
+
+  <div class="callout navy">Zero debt + $7.28m idle cash is a corner solution - not trade-off optimisation. Management conservatism, not optimisation, is driving capital structure. Flatbush's $190m backlog provides enough near-term visibility to service modest debt without distress exposure.</div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q6a</span></div>
+  <div class="slide-num">9</div>
+</div>
+
+<!-- ========== SLIDE 10 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q6</div><div class="q-text">Evaluate the capital structure policy of Flatbush</div></div>
+  <div class="title">Issue modest debt. Combine with surplus cash. Buy back ~20% of shares.</div>
+  <div class="big-number green-text">~$0.10m/yr</div>
+  <div class="subtitle">Annual tax shield ($4m × 5% × 52%) - modest but captured for the first time in Flatbush's history, plus the governance and signalling benefits below</div>
+
+  <table style="margin-top:12px;">
+    <thead><tr><th>Balance sheet ($m)</th><th>Before</th><th class="green-fill">After recap</th></tr></thead>
+    <tbody>
+      <tr><td>Cash + securities</td><td>7.28</td><td class="green-fill">5.28</td></tr>
+      <tr><td>Long-term debt</td><td>0</td><td class="green-fill">4.00</td></tr>
+      <tr><td>Equity</td><td>24.96</td><td class="green-fill">18.96</td></tr>
+      <tr><td><strong>Buyback firepower</strong> ($2m cash + $4m debt)</td><td>-</td><td class="green-fill"><strong>~$6m</strong></td></tr>
+      <tr><td>D / (D+E)</td><td>0%</td><td class="green-fill"><strong>17%</strong></td></tr>
+      <tr><td>Interest coverage (1958 PBT $4.50m)</td><td>n/a</td><td class="green-fill"><strong>~23× @ 5%</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="split" style="margin-top:14px;">
+    <div style="background: var(--grey); padding: 10px 14px; border-radius: 4px;">
+      <strong style="font-size:13px; color:var(--navy); letter-spacing:0.5px;">DEBT DOES THREE JOBS</strong>
+      <table style="font-size:12px; margin-top:6px;">
+        <tbody>
+          <tr><td><strong>Tax shield</strong></td><td>MM (1963): V_L = V_U + τ_c D</td><td>S08</td></tr>
+          <tr><td><strong>Signalling</strong></td><td>Ross (1977): debt commits to cash outflows</td><td>S10</td></tr>
+          <tr><td><strong>Governance</strong></td><td>Interest forces distribution</td><td>Jensen FCF (S09)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="callout red" style="margin-top:0; border-color: var(--red);">
+      <strong>Why debt not equity (Myers-Majluf pecking order, S10):</strong> Equity issuance triggers -3% to -4% abnormal returns - adverse selection penalty. At $69 (cheap by Davis's own valuation), SEO destroys further value. Internal cash + debt is the correct sequence.
+    </div>
+  </div>
+
+  <div class="callout green">~$6m of buyback firepower at ~$77.50 ≈ 77,000 shares ≈ 32% of float (245,000 shares). A single, visible, credible move - not accounting theatre. $190m backlog provides downside cover for debt service.</div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q6b</span></div>
+  <div class="slide-num">10</div>
+</div>
+
+<!-- ========== SLIDE 11 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q7</div><div class="q-text">To increase leverage, pay an extra dividend or buy back stock? Which method?</div></div>
+  <div class="title">In 1959, buybacks beat dividends on tax and flexibility</div>
+  <div class="big-number green-text">Buyback wins</div>
+
+  <table style="margin-top:14px;">
+    <thead><tr><th>Dimension</th><th>Extra dividend</th><th class="green-fill">Share repurchase</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Tax (1959)</strong></td><td class="red-text">Ordinary income rates, up to 91% statutory top bracket (effective ~87-88%)</td><td class="green-fill">Capital gains only, 25% long-term</td></tr>
+      <tr><td><strong>Flexibility</strong></td><td>Sticky - market expects repetition</td><td class="green-fill">One-off, no commitment</td></tr>
+      <tr><td><strong>Signalling</strong></td><td>"Cash out" - neutral</td><td class="green-fill">"Stock is cheap" - positive</td></tr>
+      <tr><td><strong>Clientele fit</strong></td><td>Forced on all holders</td><td class="green-fill">Tender = self-selection</td></tr>
+    </tbody>
+  </table>
+
+  <div style="background: var(--grey); padding: 12px 16px; border-radius: 4px; margin-top: 14px;">
+    <strong style="font-size:13px; color:var(--navy); letter-spacing:0.5px;">1959 TAX MECHANICS</strong>
+    <table style="font-size:13px; margin-top:6px;">
+      <thead><tr><th style="padding:6px 10px;">Holder action</th><th style="padding:6px 10px;">Tax hit</th></tr></thead>
+      <tbody>
+        <tr><td>Receives special dividend</td><td class="red-text">Full ordinary rate on entire distribution (top statutory bracket = 91%)</td></tr>
+        <tr><td>Tenders shares to buyback</td><td>25% capital gains on (price − cost basis)</td></tr>
+        <tr class="anchor-highlight"><td><strong>Holds through buyback</strong></td><td class="green-text"><strong>0% - no taxable event</strong></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout green">Shareholder base is 98% non-institutional (Exhibit 5). For taxable holders, the buyback dominates strongly on tax; it also wins on flexibility, signalling, and capital-structure effect. The case for an extra dividend rests only on simplicity.</div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q7a</span></div>
+  <div class="slide-num">11</div>
+</div>
+
+<!-- ========== SLIDE 12 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q7</div><div class="q-text">To increase leverage, pay an extra dividend or buy back stock? Which method?</div></div>
+  <div class="title">Tender at ~$77.50: credible signal at the right size</div>
+  <div class="big-number orange-text">~$77.50</div>
+  <div class="subtitle">Fixed-price tender, funded by $2m surplus cash + $4m new debt</div>
+
+  <div class="split" style="margin-top:12px;">
+    <div class="panel">
+      <h3>Execution</h3>
+      <table style="font-size:12px;">
+        <tbody>
+          <tr><td><strong>Mechanism</strong></td><td>Fixed-price tender (or equivalent formal repurchase)</td></tr>
+          <tr><td><strong>Price</strong></td><td>~$77.50 (~12% over $69 post-announcement)</td></tr>
+          <tr><td><strong>Size</strong></td><td>~$6m (~32% of 245,000 shares at the tender price)</td></tr>
+          <tr><td><strong>Funding</strong></td><td>$2m surplus cash + $4m new long-term debt</td></tr>
+          <tr><td><strong>Timing</strong></td><td>Q2 1959, post-board approval</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="panel">
+      <h3>Expected outcome</h3>
+      <table class="num" style="font-size:12px;">
+        <thead><tr><th></th><th>Pre</th><th class="green-fill">Post</th></tr></thead>
+        <tbody>
+          <tr><td>Stock price</td><td>$69</td><td class="green-fill">$77-80+</td></tr>
+          <tr><td>Shares outstanding</td><td>245,000</td><td class="green-fill">~167,600</td></tr>
+          <tr><td>1959 earnings (at $14.50 EPS)</td><td>$3.55m</td><td class="green-fill">$3.45m (net of ~$0.10m after-tax interest)</td></tr>
+          <tr><td>EPS (1959)</td><td>$14.50</td><td class="green-fill"><strong>~$20.60 (+42%)</strong></td></tr>
+          <tr><td>Cash</td><td>$7.28m</td><td class="green-fill">$5.28m</td></tr>
+          <tr><td>Debt</td><td>$0</td><td class="green-fill">$4m</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div style="background: var(--navy); color: white; padding: 12px 16px 6px 16px; border-radius: 4px; margin-top: 14px;">
+    <strong style="font-size:13px; letter-spacing:0.5px;">WHY FIXED-PRICE TENDER? — VERMAELEN (1981) PERMANENT ABNORMAL RETURN</strong>
+    <svg viewBox="0 0 1160 110" style="width: 100%; height: 110px; margin-top: 6px;">
+      <!-- axis: scale +13% max → x=200 (0%) to x=1100 (+15%), so 1% = 60 units -->
+      <line x1="200" y1="95" x2="1100" y2="95" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+      <text x="200" y="108" text-anchor="middle" font-family="Calibri" font-size="10" fill="rgba(255,255,255,0.6)">0%</text>
+      <text x="500" y="108" text-anchor="middle" font-family="Calibri" font-size="10" fill="rgba(255,255,255,0.6)">+5%</text>
+      <text x="800" y="108" text-anchor="middle" font-family="Calibri" font-size="10" fill="rgba(255,255,255,0.6)">+10%</text>
+      <text x="1100" y="108" text-anchor="middle" font-family="Calibri" font-size="10" fill="rgba(255,255,255,0.6)">+15%</text>
+
+      <!-- Fixed-price tender: +13% -->
+      <text x="190" y="30" text-anchor="end" font-family="Calibri" font-size="13" font-weight="bold" fill="white">Fixed-price tender</text>
+      <rect x="200" y="18" width="780" height="22" fill="#90D25A"/>
+      <text x="995" y="34" font-family="Calibri" font-size="15" font-weight="bold" fill="#90D25A">+13%</text>
+      <text x="210" y="34" font-family="Calibri" font-size="10" fill="white" opacity="0.75">announce +17% / drift −4%</text>
+
+      <!-- Open-market: +2% -->
+      <text x="190" y="75" text-anchor="end" font-family="Calibri" font-size="13" fill="white">Open-market repurchase</text>
+      <rect x="200" y="63" width="120" height="22" fill="rgba(255,255,255,0.35)"/>
+      <text x="335" y="79" font-family="Calibri" font-size="13" fill="white">+2%</text>
+      <text x="470" y="79" font-family="Calibri" font-size="10" fill="white" opacity="0.6">announce +3% / drift −1%</text>
+    </svg>
+    <div style="font-size:11px; font-style:italic; margin-top:4px; color:#B8C6E0;">Tender commits capital publicly, sets a floor price, all-or-nothing. Vermaelen's sample covers 1962-1977; self-tenders were legally available in 1959 but less standardised (pre-Williams Act 1968). An open-market programme or formal tender-style repurchase is the viable 1959 mechanism; economics hold either way.</div>
+  </div>
+
+  <div class="callout orange">One move. Returns ~$6m, captures tax shields, re-levers the balance sheet, sends the signal Davis was trying to manufacture - but real, not theatrical.</div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q7b</span></div>
+  <div class="slide-num">12</div>
+</div>
+
+<!-- ========== SLIDE 13 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Close</div><div class="q-text">Synthesis: Q5 + Q6 + Q7 answered together</div></div>
+  <div class="title">One recommendation: the levered recap solves three problems at once</div>
+  <div style="font-size: 42px; color: var(--navy); font-weight: bold; text-align: center; margin: 20px 0;">Three problems. One move.</div>
+
+  <table style="margin-top:20px; font-size:16px;">
+    <thead><tr><th style="font-size:15px;">Problem</th><th style="font-size:15px;">Our answer</th></tr></thead>
+    <tbody>
+      <tr><td>Dividend volatility drives speculation</td><td>Modest stable regular + extras (Q5)</td></tr>
+      <tr><td>Under-levered with idle cash</td><td>Issue ~$4m debt + use $2m surplus cash (Q6)</td></tr>
+      <tr><td>1959 tax reality for return of capital</td><td>Tender offer at ~$77.50 (Q7)</td></tr>
+      <tr class="navy-fill"><td style="color:white;"><strong>Single implementation</strong></td><td style="color:white;"><strong>Levered recap</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="centre-quote" style="margin-top: 40px;">
+    "A firm that cannot find positive-NPV projects at its required return should return capital — not relabel it."
+  </div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Close 1</span></div>
+  <div class="slide-num">13</div>
+</div>
+
+<!-- ========== SLIDE 14 ========== -->
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Close</div><div class="q-text">Closing thesis on payout philosophy</div></div>
+  <div class="title">The payout mechanism a company chooses reveals what it believes</div>
+
+  <div class="centre-quote" style="margin: 40px 40px 20px 40px;">
+    "A company's payout policy is not a formula. It's a statement about what the company believes - about its earnings, its discipline, and its shareholders."
+  </div>
+
+  <table style="width: 70%; margin: 0 auto; font-size: 15px;">
+    <thead><tr><th>Flatbush's options</th><th>Implied belief</th></tr></thead>
+    <tbody>
+      <tr><td>Padgett's 50% rule</td><td>"We don't need a policy - we have a spreadsheet"</td></tr>
+      <tr><td>Davis's funded reserve</td><td>"Image matters more than economics"</td></tr>
+      <tr class="green-fill"><td style="color:white;"><strong>Our levered recap</strong></td><td style="color:white;"><strong>"We have cash we can't invest. We give it back."</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div style="text-align: center; font-size: 14px; font-style: italic; color: #666; margin-top: 24px;">
+    Our plan delivers everything Davis wanted — through real substance, not accounting theatre.
+  </div>
+
+  <div class="centre-quote-small" style="margin-top: 30px;">
+    "Davis was right to ask the question. He was wrong about the answer.<br>The honest answer is harder — and stronger."
+  </div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Close 2</span></div>
+  <div class="slide-num">14</div>
+</div>
+
+</body>
+</html>
