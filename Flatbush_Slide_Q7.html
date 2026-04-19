@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Flatbush - Q7 Slide</title>
+<style>
+  :root {
+    --navy: #1B2A4A;
+    --navy-light: #004B87;
+    --orange: #D97706;
+    --red: #C00000;
+    --green: #548235;
+    --grey: #F5F5F0;
+    --yellow: #FFF2CC;
+    --text: #333333;
+    --footer: #999999;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { font-family: Calibri, "Helvetica Neue", Arial, sans-serif; color: var(--text); background: #999; }
+  body { display: flex; flex-direction: column; align-items: center; padding: 20px 0; }
+  .slide {
+    width: 1280px; height: 720px;
+    background: white; padding: 48px 64px;
+    margin: 16px 0; box-shadow: 0 4px 16px rgba(0,0,0,0.2);
+    position: relative;
+    display: flex; flex-direction: column;
+    overflow: hidden;
+  }
+  .title { font-size: 32px; font-weight: bold; color: var(--navy); margin-bottom: 8px; line-height: 1.15; }
+  .big-number { font-size: 56px; font-weight: bold; line-height: 1; margin: 8px 0; }
+  table { border-collapse: collapse; width: 100%; font-size: 14px; }
+  th { background: var(--navy); color: white; padding: 10px 12px; text-align: left; font-weight: bold; }
+  td { padding: 8px 12px; border: none; }
+  tbody tr:nth-child(odd) { background: white; }
+  tbody tr:nth-child(even) { background: var(--grey); }
+  .callout {
+    border-radius: 8px; padding: 12px 16px; font-size: 13px; font-style: italic;
+    border: 2px solid; line-height: 1.35;
+    margin-top: auto;
+  }
+  .callout.green { border-color: var(--green); background: #F0F7EB; }
+  .footer {
+    position: absolute; bottom: 18px; left: 64px; right: 64px;
+    font-size: 10px; color: var(--footer);
+    display: flex; justify-content: space-between;
+  }
+  .green-text { color: var(--green); font-weight: bold; }
+  .red-text { color: var(--red); font-weight: bold; }
+  .navy-text { color: var(--navy); font-weight: bold; }
+  .green-fill { background: var(--green) !important; color: white; }
+  .red-fill { background: var(--red) !important; color: white; }
+  .slide-num { position: absolute; bottom: 18px; right: 64px; font-size: 10px; color: var(--footer); }
+  .split { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: start; }
+
+  .q-banner {
+    position: absolute; top: 0; right: 0;
+    background: var(--navy); color: white;
+    padding: 14px 24px 14px 28px;
+    border-bottom-left-radius: 12px;
+    display: flex; align-items: center; gap: 14px;
+    z-index: 10;
+  }
+  .q-banner .q-num {
+    font-size: 22px; font-weight: bold; letter-spacing: 1px;
+    border-right: 2px solid rgba(255,255,255,0.3);
+    padding-right: 14px; line-height: 1;
+  }
+  .q-banner .q-text {
+    font-size: 12px; line-height: 1.3; max-width: 340px;
+    color: #D0D8E8;
+  }
+  .slide.has-banner .title { padding-right: 420px; }
+
+  @media print {
+    body { background: white; padding: 0; margin: 0; }
+    .slide { margin: 0; box-shadow: none; page-break-after: always; }
+  }
+  @page { size: 1280px 720px; margin: 0; }
+</style>
+</head>
+<body>
+
+<div class="slide has-banner">
+  <div class="q-banner"><div class="q-num">Q7</div><div class="q-text">To increase leverage, pay an extra dividend or buy back stock? Which method?</div></div>
+  <div class="title">Buyback beats dividend. Do it via a tender offer.</div>
+  <div class="big-number green-text">Buyback</div>
+  <div style="font-size:15px; color:#555; margin-bottom:14px;">In 1959, a dollar returned via buyback is worth ~3x a dollar returned via dividend to a top-bracket shareholder.</div>
+
+  <table style="margin-top:6px;">
+    <thead><tr><th>Dimension</th><th>Extra dividend</th><th class="green-fill">Buyback (tender offer)</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Tax on shareholder</strong></td><td class="red-text">Up to 91% (ordinary income)</td><td class="green-fill"><strong>25% capital gains — only if you tender</strong></td></tr>
+      <tr><td><strong>Flexibility</strong></td><td class="red-text">Sticky — market expects it again next year</td><td class="green-fill"><strong>One-off, no commitment</strong></td></tr>
+      <tr><td><strong>Signal to market</strong></td><td>"We have cash lying around"</td><td class="green-fill"><strong>"Our stock is undervalued"</strong></td></tr>
+    </tbody>
+  </table>
+
+  <div class="split" style="margin-top:16px;">
+    <div>
+      <h3 style="font-size:15px; color:var(--navy); font-weight:bold; margin-bottom:8px;">THE 1959 TAX KILLER</h3>
+      <div style="background: var(--grey); padding: 12px 14px; border-radius: 4px; font-size: 13px;">
+        <div style="margin-bottom: 8px;"><strong>$100 dividend</strong> → shareholder keeps <span class="red-text">~$20</span></div>
+        <div style="background:#FFE4E4; height:20px; width:20%; border-radius:2px; margin-bottom:12px;"></div>
+        <div style="margin-bottom: 8px;"><strong>$100 buyback (tendered)</strong> → shareholder keeps <span class="green-text">~$75</span></div>
+        <div style="background:#D4E5B8; height:20px; width:75%; border-radius:2px; margin-bottom:8px;"></div>
+        <div style="font-size: 11px; color: #666; font-style: italic;">1959 tax code: up to 91% top marginal on ordinary income; 25% long-term capital gains.</div>
+      </div>
+    </div>
+
+    <div>
+      <h3 style="font-size:15px; color:var(--navy); font-weight:bold; margin-bottom:8px;">EXECUTION</h3>
+      <table style="font-size:13px;">
+        <tbody>
+          <tr><td><strong>Mechanism</strong></td><td>Fixed-price tender offer</td></tr>
+          <tr><td><strong>Price</strong></td><td>~$77.50 (~12% over $69)</td></tr>
+          <tr><td><strong>Size</strong></td><td>~$6m (~32% of 245,000 shares)</td></tr>
+          <tr><td><strong>Funding</strong></td><td>$2m cash + $4m new debt (from Q6)</td></tr>
+          <tr><td><strong>Benchmark</strong></td><td class="green-text">Tender offers avg <strong>+13%</strong> stock reaction (Vermaelen, S12)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="callout green">In 1959, a buyback returns roughly 3× more to shareholders per dollar than a dividend. A tender offer amplifies that with a clear confidence signal — the single most visible move Flatbush can make to reverse the -11.5% stock drop.</div>
+
+  <div class="footer"><span>CFP Case 3 · Flatbush Shipyards · INSEAD MBA 2026D · E6-G14</span><span>Q7</span></div>
+  <div class="slide-num">9</div>
+</div>
+
+</body>
+</html>
